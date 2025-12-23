@@ -34,6 +34,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         email,
         options: {
           shouldCreateUser: true,
+          emailRedirectTo: 'muuf://auth/callback',
         },
       });
 
@@ -43,7 +44,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } catch (error: any) {
       set({
         isLoading: false,
-        error: error.message || 'Failed to send OTP',
+        error: error.message || 'Failed to send magic link',
       });
       throw error;
     }
