@@ -22,7 +22,8 @@ type Props = AuthStackScreenProps<'OTPVerification'>;
 
 const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
   const { email } = route.params;
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const OTP_LENGTH = 6;
+  const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(''));
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const inputRefs = useRef<(TextInput | null)[]>([]);
@@ -37,7 +38,7 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
     setOtp(newOtp);
 
     // Auto-focus next input
-    if (value && index < 5) {
+    if (value && index < OTP_LENGTH - 1) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -51,8 +52,8 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
   const handleVerifyOtp = async () => {
     const otpCode = otp.join('');
 
-    if (otpCode.length !== 6) {
-      Alert.alert('Error', 'Por favor introduce el código de 6 dígitos');
+    if (otpCode.length !== OTP_LENGTH) {
+      Alert.alert('Error', `Por favor introduce el código de ${OTP_LENGTH} dígitos`);
       return;
     }
 
@@ -87,7 +88,7 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
           ? 'Código incorrecto. Por favor verifica e intenta de nuevo.'
           : 'Hubo un error al verificar el código. Intenta de nuevo.'
       );
-      setOtp(['', '', '', '', '', '']);
+      setOtp(Array(OTP_LENGTH).fill(''));
       inputRefs.current[0]?.focus();
     } finally {
       setIsVerifying(false);
@@ -108,7 +109,7 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
       if (error) throw error;
 
       Alert.alert('Éxito', 'Se ha enviado un nuevo código a tu email');
-      setOtp(['', '', '', '', '', '']);
+      setOtp(Array(OTP_LENGTH).fill(''));
       inputRefs.current[0]?.focus();
     } catch (error: any) {
       console.error('Resend OTP error:', error);
@@ -173,7 +174,7 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
             title="Verificar"
             onPress={handleVerifyOtp}
             loading={isVerifying}
-            disabled={isVerifying || otp.join('').length !== 6}
+            disabled={isVerifying || otp.join('').length !== OTP_LENGTH}
             fullWidth
             style={styles.verifyButton}
           />
