@@ -10,6 +10,7 @@ import type { CompositeScreenProps } from '@react-navigation/native';
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
+  CompleteProfile: { email: string };
   OTPVerification: { email: string };
 };
 
