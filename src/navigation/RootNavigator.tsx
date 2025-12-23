@@ -40,7 +40,10 @@ export const RootNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={isAuthenticated ? "Main" : "Auth"}
+      >
         {isAuthenticated ? (
           <>
             <Stack.Screen name="Main" component={MainTabNavigator} />
@@ -120,7 +123,6 @@ export const RootNavigator = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Auth" component={AuthNavigator} />
             <Stack.Screen name="Questionnaire" component={QuestionnaireNavigator} />
           </>
