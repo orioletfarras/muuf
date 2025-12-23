@@ -46,6 +46,7 @@ export const RootNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        key={`${isAuthenticated}-${hasCompletedQuestionnaire}`}
         screenOptions={{ headerShown: false }}
         initialRouteName={isAuthenticated && hasCompletedQuestionnaire ? "Main" : (isAuthenticated ? "Questionnaire" : "Auth")}
       >
