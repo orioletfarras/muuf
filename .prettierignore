@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+.expo-shared/
+
+# Native
+android/
+ios/
+
+# Build
+dist/
+build/
+*.bundle
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+coverage/
+*.log
+.DS_Store

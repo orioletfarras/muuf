@@ -13,7 +13,12 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "La app necesita acceso a tu galería para que puedas subir una foto de perfil",
+        "NSCameraUsageDescription": "La app necesita acceso a tu cámara para que puedas tomar una foto de perfil"
+      },
+      "bundleIdentifier": "com.oriolfarras.frontend"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,10 +26,28 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.oriolfarras.frontend"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "La app necesita acceso a tu galería para que puedas subir una foto de perfil",
+          "cameraPermission": "La app necesita acceso a tu cámara para que puedas tomar una foto de perfil"
+        }
+      ]
+    ]
   }
 }
