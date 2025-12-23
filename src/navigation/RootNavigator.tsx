@@ -26,6 +26,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const RootNavigator = () => {
   const { isAuthenticated, isLoading, loadUser } = useAuthStore();
 
+  console.log('RootNavigator rendering - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+
   useEffect(() => {
     loadUser();
   }, []);
