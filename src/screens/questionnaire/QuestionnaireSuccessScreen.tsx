@@ -11,7 +11,7 @@ import { supabase } from '../../lib/supabase';
 type Props = QuestionnaireStackScreenProps<'QuestionnaireSuccess'>;
 
 const QuestionnaireSuccessScreen: React.FC<Props> = ({ navigation }) => {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser, setQuestionnaireCompleted } = useAuthStore();
   const { getQuestionnaireData, clearQuestionnaire, profilePhoto } = useQuestionnaireStore();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,11 +42,14 @@ const QuestionnaireSuccessScreen: React.FC<Props> = ({ navigation }) => {
       // });
       // if (error) throw error;
 
-      // Step 4: Clear questionnaire store
+      // Step 4: Mark questionnaire as completed
+      setQuestionnaireCompleted(true);
+
+      // Step 5: Clear questionnaire store
       clearQuestionnaire();
 
-      // Navigation will happen automatically via RootNavigator when completed
-      // User is already authenticated from OTP verification
+      // Navigation will happen automatically via RootNavigator
+      // RootNavigator will detect hasCompletedQuestionnaire=true and show Main
     } catch (error: any) {
       setIsLoading(false);
       console.error('Error saving questionnaire:', error);

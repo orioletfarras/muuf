@@ -85,9 +85,8 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
           });
         }
 
-        // Navigate to questionnaire
-        // @ts-ignore
-        navigation.getParent()?.navigate('Questionnaire');
+        // Navigation will happen automatically via RootNavigator
+        // When isAuthenticated becomes true, RootNavigator will show Questionnaire
       }
     } catch (error: any) {
       console.error('OTP verification error:', error);

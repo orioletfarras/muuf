@@ -12,6 +12,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticating: boolean; // Flag to prevent navigation resets during auth flow
+  hasCompletedQuestionnaire: boolean; // Flag to track if user completed onboarding
 
   // Actions
   sendOTP: (email: string) => Promise<void>;
@@ -21,6 +22,7 @@ interface AuthState {
   updateUser: (user: Partial<User>) => void;
   clearError: () => void;
   setAuthenticating: (value: boolean) => void;
+  setQuestionnaireCompleted: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -29,6 +31,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
   error: null,
   isAuthenticating: false,
+  hasCompletedQuestionnaire: false,
 
   sendOTP: async (email: string) => {
     // Don't set isLoading here to avoid re-rendering RootNavigator
@@ -158,4 +161,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   clearError: () => set({ error: null }),
 
   setAuthenticating: (value: boolean) => set({ isAuthenticating: value }),
+
+  setQuestionnaireCompleted: (value: boolean) => set({ hasCompletedQuestionnaire: value }),
 }));

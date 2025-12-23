@@ -26,9 +26,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const RootNavigator = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const hasCompletedQuestionnaire = useAuthStore((state) => state.hasCompletedQuestionnaire);
   const loadUser = useAuthStore((state) => state.loadUser);
 
-  console.log('RootNavigator rendering - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+  console.log('RootNavigator rendering - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading, 'hasCompletedQuestionnaire:', hasCompletedQuestionnaire);
 
   useEffect(() => {
     loadUser();
@@ -46,9 +47,9 @@ export const RootNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={isAuthenticated ? "Main" : "Auth"}
+        initialRouteName={isAuthenticated && hasCompletedQuestionnaire ? "Main" : (isAuthenticated ? "Questionnaire" : "Auth")}
       >
-        {isAuthenticated ? (
+        {isAuthenticated && hasCompletedQuestionnaire ? (
           <>
             <Stack.Screen name="Main" component={MainTabNavigator} />
             <Stack.Screen
@@ -125,10 +126,13 @@ export const RootNavigator = () => {
               }}
             />
           </>
+        ) : isAuthenticated ? (
+          <>
+            <Stack.Screen name="Questionnaire" component={QuestionnaireNavigator} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Auth" component={AuthNavigator} />
-            <Stack.Screen name="Questionnaire" component={QuestionnaireNavigator} />
           </>
         )}
       </Stack.Navigator>
