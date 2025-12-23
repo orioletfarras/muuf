@@ -11,6 +11,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  isAuthenticating: boolean; // Flag to prevent navigation resets during auth flow
 
   // Actions
   sendOTP: (email: string) => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthState {
   loadUser: () => Promise<void>;
   updateUser: (user: Partial<User>) => void;
   clearError: () => void;
+  setAuthenticating: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -26,6 +28,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  isAuthenticating: false,
 
   sendOTP: async (email: string) => {
     set({ isLoading: true, error: null });
@@ -153,4 +156,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   clearError: () => set({ error: null }),
+
+  setAuthenticating: (value: boolean) => set({ isAuthenticating: value }),
 }));
