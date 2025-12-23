@@ -38,9 +38,18 @@ const QuestionScreen: React.FC<Props> = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
 
-  // Reset navigation state when question changes
+  // Reset all state when question changes
   useEffect(() => {
     setIsNavigating(false);
+    setSelectedOption(null);
+    setTextInput('');
+    setNumericInput('');
+    setWeight(70);
+    setHeight(170);
+    setSelectedOptions([]);
+    setPhotoUri(null);
+    setSearchQuery('');
+    setSelectedSports([]);
   }, [questionNumber]);
 
   if (!question) {
