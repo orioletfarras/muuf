@@ -48,8 +48,12 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
       const { sendOTP } = useAuthStore.getState();
       await sendOTP(email);
 
+      console.log('OTP sent successfully, navigating to OTPVerification...');
+
       // Navigate to OTP verification screen
       navigation.navigate('OTPVerification', { email });
+
+      console.log('Navigation called');
     } catch (error: any) {
       console.error('Send OTP error:', error);
       Alert.alert(

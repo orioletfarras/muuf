@@ -33,10 +33,11 @@ export default function App() {
   useEffect(() => {
     // Listen for auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth event:', event);
+      console.log('Auth event:', event, 'Session:', session);
 
-      if (event === 'SIGNED_IN' && session) {
-        // User signed in via magic link
+      // Only update auth state when user is actually signed in with a verified session
+      if (event === 'SIGNED_IN' && session && session.user) {
+        // User successfully signed in (OTP verified)
         const { loadUser } = useAuthStore.getState();
         await loadUser();
       } else if (event === 'SIGNED_OUT') {
@@ -44,6 +45,7 @@ export default function App() {
         const { logout } = useAuthStore.getState();
         await logout();
       }
+      // Ignore other events like TOKEN_REFRESHED, USER_UPDATED, etc.
     });
 
     // Handle deep links (magic links)
