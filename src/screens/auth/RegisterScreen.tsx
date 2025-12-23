@@ -44,26 +44,17 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     setRegistrationData({ email, password: '', full_name: fullName });
 
     try {
-      // Send Magic Link to email
+      // Send OTP to email
       const { sendOTP } = useAuthStore.getState();
       await sendOTP(email);
 
-      // Show success message
-      Alert.alert(
-        'Revisa tu email',
-        `Hemos enviado un enlace de acceso a ${email}. Haz clic en el enlace para continuar con el registro.`,
-        [
-          {
-            text: 'OK',
-            onPress: () => navigation.goBack(),
-          },
-        ]
-      );
+      // Navigate to OTP verification screen
+      navigation.navigate('OTPVerification', { email });
     } catch (error: any) {
-      console.error('Send Magic Link error:', error);
+      console.error('Send OTP error:', error);
       Alert.alert(
         'Error',
-        error.message || 'No se pudo enviar el enlace. Intenta de nuevo.'
+        error.message || 'No se pudo enviar el código. Intenta de nuevo.'
       );
     }
   };

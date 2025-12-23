@@ -30,11 +30,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   sendOTP: async (email: string) => {
     set({ isLoading: true, error: null });
     try {
+      // For development with Expo Go, we don't need emailRedirectTo
+      // Supabase will handle the session automatically
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
-          emailRedirectTo: 'muuf://auth/callback',
         },
       });
 
