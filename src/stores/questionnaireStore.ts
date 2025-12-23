@@ -13,7 +13,7 @@ interface QuestionnaireState {
   // Actions
   setAnswer: (questionId: string, value: string | string[] | number) => void;
   setProfilePhoto: (uri: string) => void;
-  setRegistrationData: (data: { email: string; password: string; full_name: string }) => void;
+  setRegistrationData: (data: { email: string; password?: string; full_name: string }) => void;
   getQuestionnaireData: () => QuestionnaireData;
   clearQuestionnaire: () => void;
 }
