@@ -24,7 +24,8 @@ type Props = AuthStackScreenProps<'Register'>;
 const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
-  const { isLoading, error, clearError } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { error, clearError } = useAuthStore();
   const { setRegistrationData } = useQuestionnaireStore();
 
   const handleRegister = async () => {
@@ -43,6 +44,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     // Save registration data
     setRegistrationData({ email, password: '', full_name: fullName });
 
+    setIsLoading(true);
     try {
       // Send OTP to email
       const { sendOTP } = useAuthStore.getState();
@@ -60,6 +62,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
         'Error',
         error.message || 'No se pudo enviar el código. Intenta de nuevo.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -31,7 +31,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticating: false,
 
   sendOTP: async (email: string) => {
-    set({ isLoading: true, error: null });
+    // Don't set isLoading here to avoid re-rendering RootNavigator
+    set({ error: null });
     try {
       // For development with Expo Go, we don't need emailRedirectTo
       // Supabase will handle the session automatically
@@ -44,10 +45,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (error) throw error;
 
-      set({ isLoading: false, error: null });
+      set({ error: null });
     } catch (error: any) {
       set({
-        isLoading: false,
         error: error.message || 'Failed to send magic link',
       });
       throw error;

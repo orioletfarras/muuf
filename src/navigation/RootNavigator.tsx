@@ -24,13 +24,15 @@ import RankingScreen from '../screens/main/RankingScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = () => {
-  const { isAuthenticated, isLoading, loadUser } = useAuthStore();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const loadUser = useAuthStore((state) => state.loadUser);
 
   console.log('RootNavigator rendering - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   if (isLoading) {
     return (

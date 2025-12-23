@@ -23,7 +23,8 @@ type Props = AuthStackScreenProps<'Login'>;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [email, setEmail] = useState('');
-  const { isLoading, error, clearError } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { error, clearError } = useAuthStore();
 
   const handleLogin = async () => {
     if (!email) {
@@ -38,6 +39,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
 
+    setIsLoading(true);
     try {
       // Send OTP to email
       const { sendOTP } = useAuthStore.getState();
@@ -55,6 +57,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         'Error',
         error.message || 'No se pudo enviar el código. Intenta de nuevo.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 

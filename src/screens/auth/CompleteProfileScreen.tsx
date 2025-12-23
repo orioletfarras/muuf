@@ -24,7 +24,8 @@ type Props = AuthStackScreenProps<'CompleteProfile'>;
 const CompleteProfileScreen: React.FC<Props> = ({ navigation, route }) => {
   const { email } = route.params;
   const [fullName, setFullName] = useState('');
-  const { isLoading, error, clearError } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { error, clearError } = useAuthStore();
   const { setRegistrationData } = useQuestionnaireStore();
 
   const handleComplete = async () => {
@@ -36,6 +37,7 @@ const CompleteProfileScreen: React.FC<Props> = ({ navigation, route }) => {
     // Save registration data
     setRegistrationData({ email, password: '', full_name: fullName });
 
+    setIsLoading(true);
     try {
       // Send OTP to email for new user
       const { sendOTP } = useAuthStore.getState();
@@ -51,6 +53,8 @@ const CompleteProfileScreen: React.FC<Props> = ({ navigation, route }) => {
         'Error',
         error.message || 'No se pudo enviar el código. Intenta de nuevo.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
