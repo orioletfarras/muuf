@@ -9,6 +9,8 @@ import {
   ScrollView,
   Image,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -467,31 +469,37 @@ const QuestionScreen: React.FC<Props> = ({ navigation, route }) => {
         </View>
       </View>
 
-      <ScrollView
-        style={styles.content}
-        contentContainerStyle={styles.contentContainer}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
-        <Text style={styles.question}>{question.question}</Text>
-        {question.subtitle && (
-          <Text style={styles.subtitle}>{question.subtitle}</Text>
-        )}
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Text style={styles.question}>{question.question}</Text>
+          {question.subtitle && (
+            <Text style={styles.subtitle}>{question.subtitle}</Text>
+          )}
 
-        {renderQuestionContent()}
-      </ScrollView>
+          {renderQuestionContent()}
+        </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          title="Siguiente"
-          onPress={handleNext}
-          disabled={!canProceed() || isNavigating}
-          fullWidth
-          style={styles.button}
-        />
-        <TouchableOpacity onPress={handleNext} disabled={isNavigating}>
-          <Text style={styles.skipText}>Omitir</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.footer}>
+          <Button
+            title="Siguiente"
+            onPress={handleNext}
+            disabled={!canProceed() || isNavigating}
+            fullWidth
+            style={styles.button}
+          />
+          <TouchableOpacity onPress={handleNext} disabled={isNavigating}>
+            <Text style={styles.skipText}>Omitir</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -500,6 +508,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.warning,
+  },
+  keyboardView: {
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
