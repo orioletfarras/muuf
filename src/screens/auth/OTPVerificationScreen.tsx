@@ -33,6 +33,15 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
     // Only allow numbers
     if (value && !/^\d+$/.test(value)) return;
 
+    // Handle iOS autofill - when full code is pasted
+    if (value.length === OTP_LENGTH) {
+      const digits = value.split('');
+      setOtp(digits);
+      // Focus last input
+      inputRefs.current[OTP_LENGTH - 1]?.focus();
+      return;
+    }
+
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
@@ -155,6 +164,8 @@ const OTPVerificationScreen: React.FC<Props> = ({ navigation, route }) => {
                   maxLength={1}
                   selectTextOnFocus
                   autoFocus={index === 0}
+                  textContentType={index === 0 ? "oneTimeCode" : "none"}
+                  autoComplete={index === 0 ? "sms-otp" : "off"}
                 />
               ))}
             </View>
